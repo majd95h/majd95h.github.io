@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/*
+  Palette
+  violet  #4A2CF0  the hero field and primary actions
+  ink     #160F3A  text and the contact block
+  paper   #F4F2FB  page background
+  amber   #FFB020  the data line, used only where something is "measured"
+  mist    #DCD7F2  rules and quiet surfaces
+*/
+:root {
+  --violet: #4a2cf0;
+  --violet-deep: #3218c9;
+  --ink: #160f3a;
+  --ink-soft: #4b4570;
+  --paper: #f4f2fb;
+  --white: #ffffff;
+  --amber: #ffb020;
+  --mist: #dcd7f2;
+}
+
+@theme inline {
+  --color-violet: var(--violet);
+  --color-violet-deep: var(--violet-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-paper: var(--paper);
+  --color-amber: var(--amber);
+  --color-mist: var(--mist);
+  --font-display: var(--font-unbounded);
+  --font-sans: var(--font-hanken);
+}
+
+html {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  overflow-x: clip;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-hanken), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+::selection {
+  background: var(--amber);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Endless tool marquee */
+.marquee {
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+.marquee-wrap:hover .marquee {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee {
+    animation: none;
+  }
+}
