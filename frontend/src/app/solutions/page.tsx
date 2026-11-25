@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { profile } from "@/content";
 
+const slugs = ["erp","training","inventory","hr","maintenance","analytics"];
 const features = {
  en: [["Financial reports","Invoice workflows","Multi-company configuration"],["Online registration","Trainer scheduling","Certificate generation"],["Stock movements","Purchase approvals","Sales reporting"],["Attendance rules","Overtime calculations","Employee self-service"],["Service requests","Contract tracking","Project costing"],["Interactive dashboards","Data integration","Automated reporting"]],
  ar: [["التقارير المالية","إجراءات الفوترة","إعداد تعدد الشركات"],["التسجيل الإلكتروني","جدولة المدربين","إصدار الشهادات"],["حركات المخزون","موافقات الشراء","تقارير المبيعات"],["قواعد الحضور","حساب العمل الإضافي","الخدمة الذاتية للموظفين"],["طلبات الخدمة","متابعة العقود","تكاليف المشاريع"],["لوحات تفاعلية","تكامل البيانات","التقارير الآلية"]]
@@ -93,7 +94,7 @@ export default function SolutionsPage() {
             <article key={title} className="rounded-2xl border border-slate-700 bg-slate-900 p-7">
               <span aria-hidden="true" className="text-sm font-bold text-blue-400">0{i + 1}</span>
               <h3 className="mt-4 text-xl font-bold">{title}</h3>
-              <p className="mt-3 leading-relaxed text-slate-300">{description}</p><ul className="mt-5 space-y-2 border-t border-slate-700 pt-4">{features[lang][i].map(feature => <li key={feature} className="text-sm text-slate-300"><span className="me-2 text-blue-400">✓</span>{feature}</li>)}</ul>
+              <p className="mt-3 leading-relaxed text-slate-300">{description}</p><ul className="mt-5 space-y-2 border-t border-slate-700 pt-4">{features[lang][i].map(feature => <li key={feature} className="text-sm text-slate-300"><span className="me-2 text-blue-400">✓</span>{feature}</li>)}</ul><a href={"/solutions/"+slugs[i]+"/"} className="mt-5 inline-block font-semibold text-blue-400">{lang === "ar" ? "تفاصيل الحل" : "Explore solution"} →</a>
             </article>
           ))}
         </div>
@@ -111,6 +112,11 @@ export default function SolutionsPage() {
         </div>
         <a href="/" className="mt-6 inline-block text-blue-400 underline">{lang === "ar" ? "اطلع على الخبرات والملف الشخصي" : "Explore experience and personal portfolio"}</a>
       </section>
+      <section className="mx-auto max-w-6xl px-6 py-12">
+<h2 className="text-3xl font-bold">{lang === "ar" ? "نماذج من خبرات التطوير" : "Selected development experience"}</h2>
+<p className="mt-3 text-slate-400">{lang === "ar" ? "أمثلة على أنواع الأعمال السابقة، دون بيانات العملاء السرية." : "Examples of prior development work, without confidential client data."}</p>
+<div className="mt-6 grid gap-4 md:grid-cols-3">{(lang === "ar" ? [["بوابات التدريب","تسجيل إلكتروني وإدارة الدورات والشهادات."],["أتمتة الموارد البشرية","قواعد الحضور والمناوبات والعمل الإضافي."],["ذكاء الأعمال","تكامل بيانات ERP ولوحات التقارير."]] : [["Training portals","Online registration, course management and certificates."],["HR automation","Attendance, shift and overtime rules."],["Business intelligence","ERP data integration and reporting dashboards."]]).map(([a,b])=><article key={a} className="rounded-xl border border-slate-700 bg-slate-900 p-6"><h3 className="font-bold text-blue-300">{a}</h3><p className="mt-3 text-slate-300">{b}</p></article>)}</div>
+</section>
       <section id="3d" className="mx-auto max-w-6xl px-6 py-12">
         <div className="rounded-3xl border border-blue-800 bg-gradient-to-br from-slate-900 to-blue-950 p-8 sm:p-12">
           <span className="rounded-full border border-blue-500 px-3 py-1 text-xs text-blue-300">{lang === "ar" ? "قريباً" : "Coming soon"}</span>
