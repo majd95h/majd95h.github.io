@@ -3,6 +3,10 @@
 import { useState } from "react";
 import { profile } from "@/content";
 
+const features = {
+ en: [["Financial reports","Invoice workflows","Multi-company configuration"],["Online registration","Trainer scheduling","Certificate generation"],["Stock movements","Purchase approvals","Sales reporting"],["Attendance rules","Overtime calculations","Employee self-service"],["Service requests","Contract tracking","Project costing"],["Interactive dashboards","Data integration","Automated reporting"]],
+ ar: [["التقارير المالية","إجراءات الفوترة","إعداد تعدد الشركات"],["التسجيل الإلكتروني","جدولة المدربين","إصدار الشهادات"],["حركات المخزون","موافقات الشراء","تقارير المبيعات"],["قواعد الحضور","حساب العمل الإضافي","الخدمة الذاتية للموظفين"],["طلبات الخدمة","متابعة العقود","تكاليف المشاريع"],["لوحات تفاعلية","تكامل البيانات","التقارير الآلية"]]
+};
 const copy = {
   en: {
     nav: "Personal portfolio", label: "Independent software development",
@@ -49,7 +53,7 @@ export default function SolutionsPage() {
     <main lang={lang} dir={lang === "ar" ? "rtl" : "ltr"} className="min-h-screen bg-slate-950 text-slate-100">
       <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-6">
         <a href="/solutions/" className="text-2xl font-bold"><span className="text-blue-400">Majd</span>Tech</a>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4"><a href="#services" className="text-sm text-slate-300">{lang === "ar" ? "الحلول" : "Solutions"}</a><a href="#3d" className="text-sm text-slate-300">3D</a><a href="#quote" className="text-sm text-slate-300">{lang === "ar" ? "تواصل" : "Contact"}</a>
           <a href="/" className="text-sm text-slate-300 hover:text-white">{t.nav}</a>
           <button type="button" onClick={() => setLang(lang === "en" ? "ar" : "en")} className="rounded-lg border border-slate-600 px-3 py-2">{lang === "en" ? "العربية" : "English"}</button>
         </div>
@@ -89,7 +93,7 @@ export default function SolutionsPage() {
             <article key={title} className="rounded-2xl border border-slate-700 bg-slate-900 p-7">
               <span aria-hidden="true" className="text-sm font-bold text-blue-400">0{i + 1}</span>
               <h3 className="mt-4 text-xl font-bold">{title}</h3>
-              <p className="mt-3 leading-relaxed text-slate-300">{description}</p>
+              <p className="mt-3 leading-relaxed text-slate-300">{description}</p><ul className="mt-5 space-y-2 border-t border-slate-700 pt-4">{features[lang][i].map(feature => <li key={feature} className="text-sm text-slate-300"><span className="me-2 text-blue-400">✓</span>{feature}</li>)}</ul>
             </article>
           ))}
         </div>
@@ -119,11 +123,23 @@ export default function SolutionsPage() {
         <h2 className="text-3xl font-bold">{lang === "ar" ? "أسئلة شائعة" : "Frequently asked questions"}</h2>
         <div className="mt-6 space-y-3">{(lang === "ar" ? [["هل يمكن تطوير نظام موجود؟","نعم، بعد مراجعة النظام وتحديد المتطلبات والتوافق التقني."],["كيف يتم تحديد السعر؟","بحسب نطاق المشروع والتكاملات والمدة المطلوبة."],["هل يمكن العمل عن بعد؟","نعم، يمكن مناقشة المتطلبات وتنفيذ المشاريع والتواصل عن بعد."]] : [["Can you extend an existing system?","Yes, after reviewing the system, requirements and technical compatibility."],["How is pricing determined?","Based on project scope, integrations and estimated delivery time."],["Can we work remotely?","Yes, requirements, development and communication can be handled remotely."]]).map(([q,a]) => <details key={q} className="rounded-xl border border-slate-700 p-5"><summary className="cursor-pointer font-semibold">{q}</summary><p className="mt-3 text-slate-300">{a}</p></details>)}</div>
       </section>
-      <section className="mx-auto max-w-6xl px-6 pb-20">
+      <section id="quote" className="mx-auto max-w-6xl px-6 pb-20">
         <div className="rounded-3xl bg-slate-900 p-8 sm:p-12">
           <h2 className="text-3xl font-bold">{t.contact}</h2>
           <p className="mt-4 text-slate-300">{t.note}</p>
-          <a href={mail} className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white">{t.quote}</a>
+          <form className="mt-8 grid gap-4 sm:grid-cols-2" onSubmit={event => {
+ event.preventDefault();
+ const data = new FormData(event.currentTarget);
+ const body = ["Name", "Email", "Company", "Service", "Budget", "Requirements"].map(key => key + ": " + String(data.get(key) || "")).join("\n");
+ window.location.href = "mailto:" + profile.email + "?subject=" + encodeURIComponent("MajdTech project enquiry") + "&body=" + encodeURIComponent(body);
+}}>
+ {([["Name","الاسم"],["Email","البريد الإلكتروني"],["Company","الشركة"]] as const).map(([key,ar]) => <label key={key} className="grid gap-2 text-sm">{lang === "ar" ? ar : key}<input name={key} type={key === "Email" ? "email" : "text"} required={key !== "Company"} className="rounded-lg border border-slate-600 bg-slate-950 p-3 text-white" /></label>)}
+ <label className="grid gap-2 text-sm">{lang === "ar" ? "الخدمة المطلوبة" : "Service"}<select name="Service" required className="rounded-lg border border-slate-600 bg-slate-950 p-3 text-white">{t.services.map(([title]) => <option key={title}>{title}</option>)}<option>{lang === "ar" ? "أخرى" : "Other"}</option></select></label>
+ <label className="grid gap-2 text-sm sm:col-span-2">{lang === "ar" ? "الميزانية التقريبية (اختياري)" : "Estimated budget (optional)"}<input name="Budget" className="rounded-lg border border-slate-600 bg-slate-950 p-3 text-white" /></label>
+ <label className="grid gap-2 text-sm sm:col-span-2">{lang === "ar" ? "متطلبات المشروع" : "Project requirements"}<textarea name="Requirements" required rows={5} className="rounded-lg border border-slate-600 bg-slate-950 p-3 text-white" /></label>
+ <button type="submit" className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white">{lang === "ar" ? "فتح الطلب في البريد الإلكتروني" : "Open enquiry in email"}</button>
+ <p className="self-center text-xs text-slate-400">{lang === "ar" ? "يفتح تطبيق البريد لإرسال الطلب؛ لا يتم الإرسال تلقائياً." : "Opens your email app; nothing is sent automatically."}</p>
+</form>
         </div>
       </section>
       <footer className="border-t border-slate-800 px-6 py-8 text-center text-sm text-slate-400">MajdTech · {profile.name}</footer>
